@@ -4,7 +4,7 @@ export type MovieSummary = {
   title: string
   poster_path: string | null
   release_date: string | null
-  vote_average: number | null
+  vote_average: number
 }
 
 // 상세페이지에서 쓸 각 영화의 모든 정보
@@ -12,7 +12,7 @@ export type MovieDetail = MovieSummary & {
   overview: string | null
   genres: { id: number; name: string }[] | null // genres 속성이 객체의 배열임
   runtime: number | null
-  production_countires: { iso_3166_1: string; name: string }[]
+  production_countries: { iso_3166_1: string; name: string }[]
   credits: {
     crew: {
       job: string
