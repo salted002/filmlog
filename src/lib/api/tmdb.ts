@@ -1,9 +1,10 @@
+import { FAVORITE_MOVIE_IDS } from '../../constants/favorites'
 import type { MovieDetail, MovieSearchResponse } from '../../types'
 
 const TMDB_BASE_URL = import.meta.env.VITE_TMDB_BASE_URL
 const TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN
 
-// 검색어 & 페이지로 영화 검색 목록 가져오기
+// 1. 검색어 & 페이지로 영화 검색 목록 가져오기
 export const searchMovies = async (
   query: string,
   page: number,
@@ -32,7 +33,7 @@ export const searchMovies = async (
   return res.json()
 }
 
-// id값으로 영화 상세정보 가져오기
+// 2. id값으로 영화 상세정보 가져오기
 export const getMovieDetail = async (id: number): Promise<MovieDetail> => {
   const url = `${TMDB_BASE_URL}/movie/${id}?append_to_response=credits&language=ko-KR`
 
@@ -50,4 +51,14 @@ export const getMovieDetail = async (id: number): Promise<MovieDetail> => {
   }
 
   return res.json()
+}
+
+// 3. 메인 페이지에 보여줄 영화(하드코딩값)
+export const getFavoriteMovies = async (): Promise<MovieDetail[]> => {
+  // Promise.all()이 없다면 map의 결과는 Promise[]가 된다. (Promise 객체들의 배열) => Promise.all()함수는 Promise가 다 끝날 때까지 기다렸다가, 실제 값의 배열로 바꿔준다.
+  const movies = await Promise.all(
+    FAVORITE_MOVIE_IDS.map((id) => getMovieDetail(id)),
+  )
+
+  return movies
 }
