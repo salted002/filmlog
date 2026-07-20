@@ -62,3 +62,10 @@ export const getFavoriteMovies = async (): Promise<MovieDetail[]> => {
 
   return movies
 }
+
+// 4. 각 영화의 포스터 URL 얻기
+export const getPosterUrl = (path: string | null, size: number) => {
+  if (!path) return null
+  const url = `https://image.tmdb.org/t/p/w${size}${path}`
+  return url
+}

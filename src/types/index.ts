@@ -6,3 +6,4 @@ export type {
   WatchedItemUpdate,
 } from './watched'
 export type { WishItem, WishItemInsert } from './wish'
+export type { AuthContextType } from './auth'
