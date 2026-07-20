@@ -1,15 +1,9 @@
 // 로그인한 사용자의 정보를 앱의 모든 곳에서 알 수 있도록 해주는 전역 상태
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react'
-import type { AuthContextType } from '../types/auth'
+import { useEffect, useState, type ReactNode } from 'react'
 import type { AppUser } from '../types'
 import { supabase } from '../lib/api/supabase'
+import { AuthContext } from './AuthContextObject'
 
 /* 전역 상태는 어떤 값을 담고 있어야 할까? (앱의 여러 곳에서 어떤 정보/함수를 필요로 할까?)
    - 현재 로그인한 유저
@@ -17,8 +11,6 @@ import { supabase } from '../lib/api/supabase'
    - 로그아웃 함수
 
 */
-
-const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AppUser | null>(null) // 처음엔 로그인하지 않은 상태이므로 null로 시작
@@ -78,12 +70,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth는 AuthProvider 안에서만 사용할 수 있습니다.')
-  }
-  return context
 }

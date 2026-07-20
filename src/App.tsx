@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import Home from './pages/Home'
 import Search from './pages/Search'
 import MovieDetail from './pages/MovieDetail'
+import SignIn from './pages/SignIn'
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/movie/:id" element={<MovieDetail />} />
-        <Route path="/signin" element="" />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element="" />
         <Route path="/mypage" element="" />
       </Routes>
