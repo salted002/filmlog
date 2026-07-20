@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useState } from 'react'
 
 export default function SignIn() {
-  const { signIn } = useAuth()
+  const { signIn, signInAnonymously } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -26,6 +26,17 @@ export default function SignIn() {
       setSubmitting(false)
     }
   }
+
+  const handleGuestSignIn = async () => {
+    try {
+      await signInAnonymously()
+      navigate(from, { replace: true })
+    } catch {
+      setError('게스트 로그인에 실패했습니다.')
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div>
       <h1>로그인</h1>
@@ -43,6 +54,9 @@ export default function SignIn() {
         {error && <div>{error}</div>}
         <button type="submit" disabled={submitting}>
           {submitting ? '로그인 중...' : '로그인'}
+        </button>
+        <button type="button" onClick={handleGuestSignIn}>
+          게스트로 체험하기
         </button>
       </form>
     </div>

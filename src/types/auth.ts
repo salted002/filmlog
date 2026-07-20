@@ -5,5 +5,6 @@ export type AuthContextType = {
   isLoading: boolean // Supabase 세션 확인 중인지
   signUp: (email: string, password: string, nickname: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
+  signInAnonymously: () => Promise<void>
   signOut: () => Promise<void>
 }

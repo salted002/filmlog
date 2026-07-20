@@ -39,6 +39,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (error) throw error
   }
 
+  // 게스트 로그인 함수 (supabase 제공 signInAnonymously 함수 사용)
+  const signInAnonymously = async () => {
+    const { error } = await supabase.auth.signInAnonymously()
+    if (error) throw error
+  }
+
   // 로그아웃 함수 (supabase 제공 signOut 함수 사용)
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
@@ -66,7 +72,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, signUp, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, signUp, signIn, signInAnonymously, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   )
