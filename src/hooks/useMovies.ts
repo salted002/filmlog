@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
-import type { MovieSummary } from '../types'
-import { getFavoriteMovies, searchMovies } from '../lib/api/tmdb'
+import type { MovieDetail, MovieSummary } from '../types'
+import {
+  getFavoriteMovies,
+  getMovieDetail,
+  searchMovies,
+} from '../lib/api/tmdb'
 
 export const useFavoriteMovies = () => {
   const [movies, setMovies] = useState<MovieSummary[]>([])
@@ -70,3 +74,26 @@ export const useSearchMovies = (query: string, page: number) => {
   return { movies, totalPages, totalResults, loading, error }
 }
 
+export const useMovieDetail = (id: number) => {
+  const [movie, setMovie] = useState<MovieDetail | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    getMovieDetail(id)
+      .then((data) => {
+        if (alive) setMovie(data)
+      })
+      .catch((error) => {
+        if (alive) setError((error as Error).message)
+      })
+      .finally(() => {
+        if (alive) setLoading(false)
+      })
+    return () => {
+      alive = false
+    }
+  }, [id])
+  return { movie, loading, error }
+}

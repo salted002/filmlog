@@ -14,7 +14,7 @@ export const searchMovies = async (
   // 검색어에 한글/특수문자/공백이 들어가면 URL이 깨질 수 있으므로, encodeURIComponent()로 감싸준다.
   const keyword = encodeURIComponent(query)
 
-  const url = `${TMDB_BASE_URL}/search/movie?query=${keyword}&include_adult=true&language=ko-KR&page=${page}`
+  const url = `${TMDB_BASE_URL}/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=${page}`
 
   const options = {
     method: 'GET',
