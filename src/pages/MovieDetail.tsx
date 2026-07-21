@@ -4,25 +4,46 @@ import { getPosterUrl } from '../lib/api/tmdb'
 import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import WatchedModal from '../components/WatchedModal'
+import { useWish } from '../hooks/useWish'
 
 export default function MovieDetail() {
   const { id } = useParams<{ id: string }>()
   const { movie, loading, error } = useMovieDetail(Number(id))
-
-  const director = movie?.credits.crew.find(
-    (person) => person.job === 'Director',
-  )
-
+  const { wish, addWish, removeWish } = useWish()
   // 추가 모달 창을 위한 상태
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useAuth()
   const navigate = useNavigate()
 
-  if (loading) return <div>스피너</div>
-  if (error) return <div>에러박스</div>
+  // 감독이 있을 경우 이름 가져오기
+  const director = movie?.credits.crew.find(
+    (person) => person.job === 'Director',
+  )
   if (!movie) {
     return <div>영화를 찾을 수 없습니다.</div>
   }
+  // 영화가 wish 목록에 있는지 확인
+  const wishedItem = wish.find((item) => item.movie_id === movie.id)
+
+  const handleWishClick = async () => {
+    if (!user) {
+      navigate('/signin')
+      return
+    }
+    if (wishedItem) {
+      await removeWish(wishedItem.id)
+    } else {
+      addWish({
+        user_id: user.id,
+        movie_id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+      })
+    }
+  }
+
+  if (loading) return <div>스피너</div>
+  if (error) return <div>에러박스</div>
 
   return (
     <div>
@@ -31,6 +52,9 @@ export default function MovieDetail() {
         src={getPosterUrl(movie.poster_path, 500) ?? undefined}
         alt={movie.title}
       />
+      <button onClick={handleWishClick}>
+        {wishedItem ? '보고싶어요 취소' : '보고싶어요'}
+      </button>
       <button
         onClick={() => {
           if (!user) {
