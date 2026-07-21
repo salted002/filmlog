@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchMovies } from '../hooks/useMovies'
 import { useSearchParams } from 'react-router-dom'
 import MovieCard from '../components/MovieCard'
@@ -19,6 +19,10 @@ export default function Search() {
     setPrevQuery(query)
     setPage(1)
   }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [page])
 
   if (loading) return <div className="page status">로딩중...</div>
   if (error) return <div className="page status error-text">에러: {error}</div>
