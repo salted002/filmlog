@@ -33,7 +33,7 @@ export default function WatchedModal({ movie, onClose }: WatchedModalProps) {
         poster_path: movie.poster_path,
         user_rating: rating,
         comment: comment,
-        watched_date: watchedDate,
+        watched_date: watchedDate || null,
       })
       onClose() // 저장이 끝나면 모달을 닫는다.
     } catch {
