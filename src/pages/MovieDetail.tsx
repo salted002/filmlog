@@ -1,6 +1,9 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useMovieDetail } from '../hooks/useMovies'
 import { getPosterUrl } from '../lib/api/tmdb'
+import { useState } from 'react'
+import { useAuth } from '../hooks/useAuth'
+import WatchedModal from '../components/WatchedModal'
 
 export default function MovieDetail() {
   const { id } = useParams<{ id: string }>()
@@ -9,6 +12,11 @@ export default function MovieDetail() {
   const director = movie?.credits.crew.find(
     (person) => person.job === 'Director',
   )
+
+  // 추가 모달 창을 위한 상태
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
   if (loading) return <div>스피너</div>
   if (error) return <div>에러박스</div>
@@ -23,6 +31,20 @@ export default function MovieDetail() {
         src={getPosterUrl(movie.poster_path, 500) ?? undefined}
         alt={movie.title}
       />
+      <button
+        onClick={() => {
+          if (!user) {
+            navigate('/signin')
+            return
+          }
+          setIsModalOpen(true)
+        }}
+      >
+        봤어요
+      </button>
+      {isModalOpen && (
+        <WatchedModal movie={movie} onClose={() => setIsModalOpen(false)} />
+      )}
       <div>{movie.overview}</div>
       <div>
         {movie.genres?.map((genre) => {
