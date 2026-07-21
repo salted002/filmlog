@@ -14,17 +14,12 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const rating = movie.vote_average.toFixed(1)
 
   return (
-    <Link to={`/movie/${movie.id}`}>
-      <div>
+    <Link to={`/movie/${movie.id}`} className="movie-card">
+      <img src={posterUrl ?? undefined} alt={movie.title} />
+      <div className="info">
         <h3>{movie.title}</h3>
-        <p>개봉일: {movie.release_date}</p>
-        <p>평균 별점: {rating}</p>
-
-        {posterUrl ? (
-          <img src={posterUrl} alt={movie.title} />
-        ) : (
-          <div>이미지 없음</div>
-        )}
+        <p className="meta">{movie.release_date}</p>
+        <p className="meta">⭐ {rating}</p>
       </div>
     </Link>
   )

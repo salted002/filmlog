@@ -22,7 +22,7 @@ export default function Search() {
   }
 
   return (
-    <div>
+    <div className="page">
       <SearchBar />
       {loading && <div>로딩중...</div>}
       {error && <div>에러: {error}</div>}

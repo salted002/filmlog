@@ -13,59 +13,77 @@ export default function MyPage() {
 
   return (
     <div>
-      <div>
-        <button onClick={() => setSearchParams({ tab: 'watched' })}>
+      <div className="tabs">
+        <button
+          onClick={() => setSearchParams({ tab: 'watched' })}
+          className={activeTab === 'watched' ? 'active' : ''}
+        >
           본 영화 {watched.length}
         </button>
-        <button onClick={() => setSearchParams({ tab: 'wish' })}>
+        <button
+          onClick={() => setSearchParams({ tab: 'wish' })}
+          className={activeTab === 'wish' ? 'active' : ''}
+        >
           보고싶어요 {wish.length}
         </button>
       </div>
 
       {/* watched 본 영화 탭 */}
       {activeTab === 'watched' && (
-        <div>
-          {watched.length === 0 ? (
-            <div>아직 본 영화가 없어요.</div>
-          ) : (
-            <div>
-              {watched.map((movie) => (
-                <div key={movie.id}>
-                  <Link to={`/movie/${movie.movie_id}`}>
-                    <h3>{movie.title}</h3>
-                    <img
-                      src={getPosterUrl(movie.poster_path, 200) ?? undefined}
-                      alt={movie.title}
-                    />
-                  </Link>
-                  {movie.user_rating && <div>내 별점: {movie.user_rating}</div>}
-                  {movie.watched_date && <div>{movie.watched_date}</div>}
-                  {movie.comment && <div>{movie.comment}</div>}
-                  <button onClick={() => removeWatched(movie.id)}>×</button>
-                </div>
-              ))}
+        <div className="movie-grid">
+          {watched.map((movie) => (
+            <div key={movie.id} className="movie-card watched-card">
+              <Link to={`/movie/${movie.movie_id}`}>
+                <img
+                  src={getPosterUrl(movie.poster_path, 200) ?? undefined}
+                  alt={movie.title}
+                />
+              </Link>
+              <div className="info">
+                <h3>{movie.title}</h3>
+                {movie.user_rating !== null && (
+                  <p className="meta">⭐ {movie.user_rating}</p>
+                )}
+                {movie.watched_date && (
+                  <p className="meta">{movie.watched_date}</p>
+                )}
+                {movie.comment && <p className="comment">{movie.comment}</p>}
+                <button
+                  className="secondary remove-btn"
+                  onClick={() => removeWatched(movie.id)}
+                >
+                  ×
+                </button>
+              </div>
             </div>
-          )}
+          ))}
         </div>
       )}
 
       {/* wish 보고싶어요 영화 탭 */}
       {activeTab === 'wish' && (
-        <div>
+        <div className="movie-grid">
           {wish.length === 0 ? (
             <div>아직 보고싶은 영화가 없어요.</div>
           ) : (
             <div>
               {wish.map((movie) => (
-                <div key={movie.id}>
+                <div key={movie.id} className="movie-card watched-card">
                   <Link to={`/movie/${movie.movie_id}`}>
-                    <h3>{movie.title}</h3>
                     <img
                       src={getPosterUrl(movie.poster_path, 200) ?? undefined}
                       alt={movie.title}
                     />
                   </Link>
-                  <button onClick={() => removeWish(movie.id)}>×</button>
+                  <div className="info">
+                    <h3>{movie.title}</h3>
+                    <button
+                      className="secondary remove-btn"
+                      onClick={() => removeWish(movie.id)}
+                    >
+                      ×
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

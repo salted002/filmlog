@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useWatched } from '../hooks/useWatched'
 import type { MovieDetail } from '../types'
+import StarRating from './StarRating'
 
 type WatchedModalProps = {
   movie: MovieDetail
@@ -42,39 +43,43 @@ export default function WatchedModal({ movie, onClose }: WatchedModalProps) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="rating">별점</label>
-        <input
-          id="rating"
-          value={rating}
-          type="number"
-          min={0}
-          max={10}
-          step={0.5}
-          onChange={(e) => setRating(Number(e.target.value))}
-        />
-        <label htmlFor="comment">감상평</label>
-        <textarea
-          id="comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <label htmlFor="watchedDate">감상한 날</label>
-        <input
-          id="watchedDate"
-          type="date"
-          value={watchedDate}
-          onChange={(e) => setWatchedDate(e.target.value)}
-        />
-        {error && <div>{error}</div>}
-        <button type="submit" disabled={submitting}>
-          {submitting ? '저장 중...' : '저장'}
-        </button>
-        <button type="button" onClick={onClose}>
-          취소
-        </button>
-      </form>
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <h3>{movie.title}</h3>
+        <p className="modal-subtitle">이 영화를 언제, 어떻게 보셨나요?</p>
+
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="rating">별점</label>
+          <StarRating rating={rating} onChange={setRating} />
+          <span className="rating-value">{rating.toFixed(1)} / 10</span>
+          <label htmlFor="comment">감상평</label>
+          <textarea
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            rows={4}
+          />
+
+          <label htmlFor="watchedDate">감상한 날</label>
+          <input
+            id="watchedDate"
+            type="date"
+            value={watchedDate}
+            onChange={(e) => setWatchedDate(e.target.value)}
+          />
+
+          {error && <div className="error-text">{error}</div>}
+
+          <div className="modal-actions">
+            <button type="submit" disabled={submitting}>
+              {submitting ? '저장 중...' : '저장'}
+            </button>
+            <button type="button" className="secondary" onClick={onClose}>
+              취소
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
