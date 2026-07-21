@@ -6,6 +6,7 @@ import MovieDetail from './pages/MovieDetail'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Header from './components/Header'
+import MyPage from './pages/MyPage'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/mypage" element="" />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </div>
   )
