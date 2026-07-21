@@ -31,32 +31,36 @@ export default function MyPage() {
       {/* watched 본 영화 탭 */}
       {activeTab === 'watched' && (
         <div className="movie-grid">
-          {watched.map((movie) => (
-            <div key={movie.id} className="movie-card watched-card">
-              <Link to={`/movie/${movie.movie_id}`}>
-                <img
-                  src={getPosterUrl(movie.poster_path, 200) ?? undefined}
-                  alt={movie.title}
-                />
-              </Link>
-              <div className="info">
-                <h3>{movie.title}</h3>
-                {movie.user_rating !== null && (
-                  <p className="meta">⭐ {movie.user_rating}</p>
-                )}
-                {movie.watched_date && (
-                  <p className="meta">{movie.watched_date}</p>
-                )}
-                {movie.comment && <p className="comment">{movie.comment}</p>}
-                <button
-                  className="secondary remove-btn"
-                  onClick={() => removeWatched(movie.id)}
-                >
-                  ×
-                </button>
+          {watched.length === 0 ? (
+            <div className="status">아직 본 영화가 없어요.</div>
+          ) : (
+            watched.map((movie) => (
+              <div key={movie.id} className="movie-card watched-card">
+                <Link to={`/movie/${movie.movie_id}`}>
+                  <img
+                    src={getPosterUrl(movie.poster_path, 200) ?? undefined}
+                    alt={movie.title}
+                  />
+                </Link>
+                <div className="info">
+                  <h3>{movie.title}</h3>
+                  {movie.user_rating !== null && (
+                    <p className="meta">⭐ {movie.user_rating}</p>
+                  )}
+                  {movie.watched_date && (
+                    <p className="meta">{movie.watched_date}</p>
+                  )}
+                  {movie.comment && <p className="comment">{movie.comment}</p>}
+                  <button
+                    className="secondary remove-btn"
+                    onClick={() => removeWatched(movie.id)}
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       )}
 
@@ -64,7 +68,7 @@ export default function MyPage() {
       {activeTab === 'wish' && (
         <div className="movie-grid">
           {wish.length === 0 ? (
-            <div>아직 보고싶은 영화가 없어요.</div>
+            <div className="status">아직 보고싶은 영화가 없어요.</div>
           ) : (
             <div>
               {wish.map((movie) => (

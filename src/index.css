@@ -490,3 +490,39 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   white-space: nowrap;
   flex-shrink: 0;
 }
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding-top: 4em;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.auth-card h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+}
+
+.auth-card form {
+  margin: 0;
+}
+
+.auth-card form button {
+  margin-top: 0.5em;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.2em;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.auth-footer a {
+  color: var(--accent);
+}
