@@ -69,7 +69,7 @@ export default function MovieDetail() {
           <div className="detail-actions">
             <button
               onClick={handleWishClick}
-              className={wishedItem ? 'secondary' : ''}
+              className={wishedItem ? '' : 'secondary'}
             >
               {wishedItem ? '보고싶어요 취소' : '보고싶어요'}
             </button>
