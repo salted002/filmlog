@@ -526,3 +526,28 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .auth-footer a {
   color: var(--accent);
 }
+
+.search-result-count {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-bottom: 1.2em;
+}
+
+.search-result-count strong {
+  color: var(--text);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 2.5em;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  min-width: 60px;
+  text-align: center;
+}

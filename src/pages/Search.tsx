@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useSearchMovies } from '../hooks/useMovies'
 import { useSearchParams } from 'react-router-dom'
-import SearchBar from '../components/SearchBar'
 import MovieCard from '../components/MovieCard'
 
 export default function Search() {
@@ -21,31 +20,50 @@ export default function Search() {
     setPage(1)
   }
 
+  if (loading) return <div className="page status">로딩중...</div>
+  if (error) return <div className="page status error-text">에러: {error}</div>
+
   return (
     <div className="page">
-      <SearchBar />
-      {loading && <div>로딩중...</div>}
-      {error && <div>에러: {error}</div>}
+      {query && (
+        <p className="search-result-count">
+          <strong>{query}</strong> 검색 결과 {totalResults}개
+        </p>
+      )}
 
-      <span>검색 결과: {totalResults}개</span>
-      <div>
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+      {movies.length === 0 ? (
+        <div className="status">검색 결과가 없어요.</div>
+      ) : (
+        <>
+          <div className="movie-grid">
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
 
-      {/* 페이지네이션 코드 */}
-      <div>
-        <button disabled={page <= 1} onClick={() => setPage(page - 1)}>
-          이전
-        </button>
-        <span>
-          {page} / {totalPages}
-        </span>
-        <button disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
-          다음
-        </button>
-      </div>
+          {totalPages > 1 && (
+            <div className="pagination">
+              <button
+                className="secondary"
+                disabled={page <= 1}
+                onClick={() => setPage(page - 1)}
+              >
+                이전
+              </button>
+              <span className="pagination-info">
+                {page} / {totalPages}
+              </span>
+              <button
+                className="secondary"
+                disabled={page >= totalPages}
+                onClick={() => setPage(page + 1)}
+              >
+                다음
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   )
 }
